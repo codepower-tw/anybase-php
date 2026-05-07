@@ -1,0 +1,34 @@
+{
+  "name": "codepower/anybase",
+  "description": "Convert integers between arbitrary bases with custom alphabets, salt, padding, and big-integer support.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["base-convert", "base62", "base58", "crockford", "obfuscation", "hashids", "encode"],
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.0"
+  },
+  "suggest": {
+    "ext-gmp": "Required for big integers > PHP_INT_MAX (preferred).",
+    "ext-bcmath": "Fallback for big integers when ext-gmp is unavailable."
+  },
+  "autoload": {
+    "psr-4": { "Anybase\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Anybase\\Tests\\": "tests/" }
+  },
+  "scripts": {
+    "test": "pest"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
