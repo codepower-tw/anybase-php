@@ -72,3 +72,33 @@ jobs:
 
       - name: Run tests (NativeBackend only; gmp/bcmath tests skip)
         run: composer test
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, gmp, bcmath
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --ignore-platform-req=php
+
+      - name: Run tests with coverage
+        run: vendor/bin/pest --coverage --colors=never | tee coverage.txt
+
+      - name: Append coverage to job summary
+        if: always()
+        run: |
+          {
+            echo '## Coverage'
+            echo
+            echo '```'
+            tail -n 60 coverage.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
