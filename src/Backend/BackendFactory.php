@@ -36,5 +36,7 @@ final class BackendFactory
         return (string) $intVal === $sample;
     }
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 }
