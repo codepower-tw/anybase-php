@@ -9,7 +9,8 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.2",
-    "pestphp/pest": "^2.0"
+    "pestphp/pest": "^2.0,<2.33",
+    "phpunit/phpunit": "^10.5,<10.5.62"
   },
   "suggest": {
     "ext-gmp": "Required for big integers > PHP_INT_MAX (preferred).",
@@ -30,6 +31,9 @@
     "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true
+    },
+    "audit": {
+      "ignore": ["PKSA-z3gr-8qht-p93v"]
     }
   },
   "minimum-stability": "stable",
