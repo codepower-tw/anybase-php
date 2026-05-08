@@ -2,8 +2,36 @@
   "name": "codepower/anybase",
   "description": "Convert integers between arbitrary bases with custom alphabets, salt, padding, and big-integer support.",
   "type": "library",
+  "keywords": [
+    "base-convert",
+    "base-converter",
+    "base16",
+    "base32",
+    "base36",
+    "base58",
+    "base62",
+    "base64",
+    "crockford",
+    "obfuscation",
+    "id-obfuscation",
+    "hashids",
+    "encode",
+    "decode"
+  ],
+  "homepage": "https://github.com/codepower-tw/anybase-php",
+  "readme": "README.md",
   "license": "MIT",
-  "keywords": ["base-convert", "base62", "base58", "crockford", "obfuscation", "hashids", "encode"],
+  "authors": [
+    {
+      "name": "Gasol Wu",
+      "email": "gasol.wu@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/codepower-tw/anybase-php/issues",
+    "source": "https://github.com/codepower-tw/anybase-php"
+  },
   "require": {
     "php": "^8.1"
   },
