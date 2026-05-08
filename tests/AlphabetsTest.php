@@ -39,3 +39,19 @@ it('folds I, L, and O for Crockford and is case-insensitive', function () {
         ->and($a->indexOf('o'))->toBe(0)
         ->and($a->indexOf('a'))->toBe(10);
 });
+
+it('folds I/1 to L, O to 0, and B to 8 for Supercell hashtag, case-insensitive', function () {
+    // Alphabet: 0289PYLQGRJCUV — indices: 0=0, 2=1, 8=2, 9=3, P=4, Y=5,
+    // L=6, Q=7, G=8, R=9, J=10, C=11, U=12, V=13
+    $a = Alphabets::supercellHashtag();
+
+    expect($a->indexOf('I'))->toBe(6)   // I -> L
+        ->and($a->indexOf('1'))->toBe(6)   // 1 -> L
+        ->and($a->indexOf('i'))->toBe(6)
+        ->and($a->indexOf('O'))->toBe(0)   // O -> 0
+        ->and($a->indexOf('o'))->toBe(0)
+        ->and($a->indexOf('B'))->toBe(2)   // B -> 8
+        ->and($a->indexOf('b'))->toBe(2)
+        ->and($a->indexOf('p'))->toBe(4)   // case-insensitive on alphabet members
+        ->and($a->indexOf('v'))->toBe(13);
+});

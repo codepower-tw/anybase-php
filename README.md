@@ -66,6 +66,10 @@ $conv->convert('deadbeef');
 
 Crockford base32 folds `I/L → 1` and `O → 0` on decode and is case-insensitive.
 
+Supercell hashtag folds `I/1 → L`, `O → 0`, `B → 8` on decode and is
+case-insensitive — the alphabet deliberately omits visually ambiguous
+characters and these foldings forgive common confusions on input.
+
 ## Big integers
 
 For values larger than `PHP_INT_MAX` (2^63 − 1), install `ext-gmp` (preferred)

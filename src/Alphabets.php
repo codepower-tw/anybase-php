@@ -63,7 +63,14 @@ final class Alphabets
     }
     public static function supercellHashtag(): Alphabet
     {
-        return Alphabet::fromString('0289PYLQGRJCUV');
+        // Supercell deliberately omits visually ambiguous characters from
+        // the alphabet. On decode we forgive common confusions: I/1 -> L,
+        // O -> 0, B -> 8. Case-insensitive so users can type either case.
+        return Alphabet::fromString('0289PYLQGRJCUV')
+            ->withFolding(
+                ['I' => 'L', '1' => 'L', 'O' => '0', 'B' => '8'],
+                caseInsensitive: true,
+            );
     }
 
     private function __construct()

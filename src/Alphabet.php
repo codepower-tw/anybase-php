@@ -40,6 +40,10 @@ final class Alphabet
         }
 
         foreach ($foldMap as $alias => $target) {
+            // PHP coerces numeric string array keys to int (e.g. ['1' => 'L']
+            // becomes [1 => 'L']). Cast back so single-digit aliases like '1'
+            // round-trip through mb_strtolower etc. as strings.
+            $alias = (string) $alias;
             $targetKey = $caseInsensitive ? mb_strtolower($target) : $target;
             if (!isset($index[$targetKey])) {
                 throw new InvalidAlphabetException("Fold target '{$target}' is not in alphabet.");
