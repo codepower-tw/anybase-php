@@ -70,7 +70,7 @@ jobs:
 
       - name: Sync kept paths from main
         env:
-          KEPT: "src composer.json README.md LICENSE .gitignore"
+          KEPT: "src composer.json README.md CHANGELOG.md LICENSE .gitignore"
         run: |
           set -e
           for p in $KEPT; do
