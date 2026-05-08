@@ -40,7 +40,7 @@ it('folds I, L, and O for Crockford and is case-insensitive', function () {
         ->and($a->indexOf('a'))->toBe(10);
 });
 
-it('folds I/1 to L, O to 0, and B to 8 for Supercell hashtag, case-insensitive', function () {
+it('folds I/1 to L, O to 0, and B to 8 for Supercell hashtag by default', function () {
     // Alphabet: 0289PYLQGRJCUV — indices: 0=0, 2=1, 8=2, 9=3, P=4, Y=5,
     // L=6, Q=7, G=8, R=9, J=10, C=11, U=12, V=13
     $a = Alphabets::supercellHashtag();
@@ -54,4 +54,28 @@ it('folds I/1 to L, O to 0, and B to 8 for Supercell hashtag, case-insensitive',
         ->and($a->indexOf('b'))->toBe(2)
         ->and($a->indexOf('p'))->toBe(4)   // case-insensitive on alphabet members
         ->and($a->indexOf('v'))->toBe(13);
+});
+
+it('supercellHashtag accepts a custom fold map', function () {
+    $a = Alphabets::supercellHashtag(['Z' => '2']);
+
+    expect($a->indexOf('Z'))->toBe(1)   // Z -> 2 (custom)
+        ->and($a->indexOf('z'))->toBe(1)
+        ->and(fn () => $a->indexOf('I'))->toThrow(\Anybase\Exception\InvalidAlphabetException::class);
+});
+
+it('supercellHashtag with empty fold map disables ambiguity folding but keeps case-insensitivity', function () {
+    $a = Alphabets::supercellHashtag([]);
+
+    expect($a->indexOf('p'))->toBe(4)   // still case-insensitive
+        ->and(fn () => $a->indexOf('I'))->toThrow(\Anybase\Exception\InvalidAlphabetException::class)
+        ->and(fn () => $a->indexOf('B'))->toThrow(\Anybase\Exception\InvalidAlphabetException::class);
+});
+
+it('supercellHashtag in strict mode rejects lowercase and ambiguous characters', function () {
+    $a = Alphabets::supercellHashtag([], caseInsensitive: false);
+
+    expect($a->indexOf('P'))->toBe(4)
+        ->and(fn () => $a->indexOf('p'))->toThrow(\Anybase\Exception\InvalidAlphabetException::class)
+        ->and(fn () => $a->indexOf('I'))->toThrow(\Anybase\Exception\InvalidAlphabetException::class);
 });

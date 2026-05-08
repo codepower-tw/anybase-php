@@ -61,16 +61,27 @@ final class Alphabets
     {
         return Alphabet::fromString('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_');
     }
-    public static function supercellHashtag(): Alphabet
+    /**
+     * Supercell hashtag alphabet (e.g. Clash of Clans player tags).
+     *
+     * The alphabet 0289PYLQGRJCUV deliberately omits visually ambiguous
+     * characters. By default we forgive common confusions on decode:
+     * I/1 -> L, O -> 0, B -> 8, and accept either case.
+     *
+     * Pass `[]` to disable ambiguity folding (case-insensitivity is
+     * controlled separately). Pass a custom map to override the defaults.
+     *
+     * @param array<string,string>|null $foldMap         Null = library defaults; [] = no folding; otherwise a custom alias->target map.
+     * @param bool                      $caseInsensitive Default true. Set false for strict casing.
+     */
+    public static function supercellHashtag(?array $foldMap = null, bool $caseInsensitive = true): Alphabet
     {
-        // Supercell deliberately omits visually ambiguous characters from
-        // the alphabet. On decode we forgive common confusions: I/1 -> L,
-        // O -> 0, B -> 8. Case-insensitive so users can type either case.
-        return Alphabet::fromString('0289PYLQGRJCUV')
-            ->withFolding(
-                ['I' => 'L', '1' => 'L', 'O' => '0', 'B' => '8'],
-                caseInsensitive: true,
-            );
+        $foldMap ??= ['I' => 'L', '1' => 'L', 'O' => '0', 'B' => '8'];
+        $a = Alphabet::fromString('0289PYLQGRJCUV');
+        if ($foldMap === [] && !$caseInsensitive) {
+            return $a;
+        }
+        return $a->withFolding($foldMap, caseInsensitive: $caseInsensitive);
     }
 
     private function __construct()

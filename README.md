@@ -67,8 +67,14 @@ $conv->convert('deadbeef');
 Crockford base32 folds `I/L → 1` and `O → 0` on decode and is case-insensitive.
 
 Supercell hashtag folds `I/1 → L`, `O → 0`, `B → 8` on decode and is
-case-insensitive — the alphabet deliberately omits visually ambiguous
-characters and these foldings forgive common confusions on input.
+case-insensitive by default. Both behaviors are configurable:
+
+```php
+Alphabets::supercellHashtag();                 // default foldings + case-insensitive
+Alphabets::supercellHashtag([]);               // no foldings, still case-insensitive
+Alphabets::supercellHashtag(['Z' => '2']);     // custom fold map
+Alphabets::supercellHashtag([], caseInsensitive: false); // strict
+```
 
 ## Big integers
 
