@@ -77,6 +77,19 @@ jobs:
             git rm -rf --ignore-unmatch -- "$p" >/dev/null
           done
           git checkout origin/main -- $KEPT
+
+      - name: Stamp version and time into composer.json
+        # Composer's schema documents both fields. Packagist normally infers
+        # the version from the git tag, but stamping the release-branch
+        # composer.json makes the manifest self-describing for consumers
+        # who inspect the source tarball directly.
+        # See https://getcomposer.org/doc/04-schema.md#version
+        run: |
+          set -e
+          NOW=$(date -u +'%Y-%m-%d %H:%M:%S')
+          jq --arg v "$VERSION" --arg t "$NOW" \
+            '.version = $v | .time = $t' composer.json > composer.json.tmp
+          mv composer.json.tmp composer.json
           git add -A
 
       - name: Commit and tag
