@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 0.1.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: Validate inputs
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Validate version format
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+            echo "Version must be SemVer (e.g. 1.2.3 or 1.2.3-rc.1), got: $VERSION"
+            exit 1
+          fi
+
+      - name: Validate tag does not already exist
+        run: |
+          if gh api "repos/$REPO/git/refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists"
+            exit 1
+          fi
+
+  verify:
+    name: Verify (full CI)
+    needs: validate
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Cut release
+    needs: [validate, verify]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+      ACTOR: ${{ github.actor }}
+      ACTOR_ID: ${{ github.actor_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git author
+        run: |
+          git config user.name "$ACTOR"
+          git config user.email "${ACTOR_ID}+${ACTOR}@users.noreply.github.com"
+
+      - name: Switch to release branch (create if missing)
+        run: |
+          set -e
+          if git ls-remote --exit-code --heads origin release >/dev/null 2>&1; then
+            git fetch origin release:release
+            git checkout release
+          else
+            git checkout --orphan release
+            git rm -rf . 2>/dev/null || true
+          fi
+
+      - name: Sync kept paths from main
+        env:
+          KEPT: "src composer.json README.md LICENSE .gitignore"
+        run: |
+          set -e
+          for p in $KEPT; do
+            git rm -rf --ignore-unmatch -- "$p" >/dev/null
+          done
+          git checkout origin/main -- $KEPT
+          git add -A
+
+      - name: Commit and tag
+        run: |
+          set -e
+          if git diff --cached --quiet; then
+            echo "Release branch already in sync with main; tagging current HEAD."
+            git tag -a "v$VERSION" -m "Release v$VERSION" HEAD
+          else
+            git commit -m "Release v$VERSION"
+            git tag -a "v$VERSION" -m "Release v$VERSION"
+          fi
+
+      - name: Push release branch and tag
+        run: |
+          git push origin release
+          git push origin "v$VERSION"
