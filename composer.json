@@ -1,0 +1,79 @@
+{
+  "name": "codepower/anybase",
+  "description": "Convert integers between arbitrary bases with custom alphabets, salt, padding, and big-integer support.",
+  "type": "library",
+  "keywords": [
+    "base-convert",
+    "base-converter",
+    "base16",
+    "base32",
+    "base36",
+    "base58",
+    "base62",
+    "base64",
+    "crockford",
+    "obfuscation",
+    "id-obfuscation",
+    "hashids",
+    "encode",
+    "decode"
+  ],
+  "homepage": "https://github.com/codepower-tw/anybase-php",
+  "readme": "README.md",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gasol Wu",
+      "email": "gasol.wu@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/codepower-tw/anybase-php/issues",
+    "source": "https://github.com/codepower-tw/anybase-php"
+  },
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.2",
+    "pestphp/pest": "^2.0,<2.33",
+    "phpstan/phpstan": "^2.0",
+    "phpunit/phpunit": "^10.5,<10.5.62"
+  },
+  "suggest": {
+    "ext-gmp": "Required for big integers > PHP_INT_MAX (preferred).",
+    "ext-bcmath": "Fallback for big integers when ext-gmp is unavailable."
+  },
+  "autoload": {
+    "psr-4": {
+      "Anybase\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Anybase\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "pest",
+    "cs": "php-cs-fixer fix",
+    "cs:check": "php-cs-fixer fix --dry-run --diff",
+    "stan": "phpstan analyse"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "audit": {
+      "ignore": [
+        "PKSA-z3gr-8qht-p93v"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "version": "0.1.0",
+  "time": "2026-05-08 07:02:26"
+}
