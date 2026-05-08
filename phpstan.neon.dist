@@ -1,0 +1,8 @@
+parameters:
+    level: 9
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    # Tests are deliberately excluded: Pest 2 wraps each test file in a
+    # synthetic class, so plain $this references confuse PHPStan without a
+    # Pest-specific extension. The analyzer's value is primarily on src/.

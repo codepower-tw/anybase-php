@@ -28,6 +28,24 @@ jobs:
       - name: Run PHP CS Fixer
         run: composer cs:check
 
+  stan:
+    name: Static analysis (PHPStan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --ignore-platform-req=php
+
+      - name: Run PHPStan
+        run: composer stan
+
   tests:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest

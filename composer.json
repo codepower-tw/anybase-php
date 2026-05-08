@@ -38,6 +38,7 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.2",
     "pestphp/pest": "^2.0,<2.33",
+    "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^10.5,<10.5.62"
   },
   "suggest": {
@@ -53,7 +54,8 @@
   "scripts": {
     "test": "pest",
     "cs": "php-cs-fixer fix",
-    "cs:check": "php-cs-fixer fix --dry-run --diff"
+    "cs:check": "php-cs-fixer fix --dry-run --diff",
+    "stan": "phpstan analyse"
   },
   "config": {
     "sort-packages": true,

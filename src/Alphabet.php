@@ -16,7 +16,9 @@ final class Alphabet
 
     /**
      * @param list<string> $chars
-     * @param array<string,string> $foldMap  e.g. ['I' => '1']; aliases get same index as target
+     * @param array<int|string,string> $foldMap  e.g. ['I' => '1']; PHP coerces
+     *   numeric string keys like '1' to int, so the type allows both.
+     *   Aliases share the index of their target.
      */
     private function __construct(
         array $chars,
@@ -66,7 +68,7 @@ final class Alphabet
         return new self(array_values($chars));
     }
 
-    /** @param array<string,string> $foldMap */
+    /** @param array<int|string,string> $foldMap */
     public function withFolding(array $foldMap, bool $caseInsensitive = false): self
     {
         return new self($this->chars, $foldMap, $caseInsensitive);

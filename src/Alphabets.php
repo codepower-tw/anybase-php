@@ -71,7 +71,7 @@ final class Alphabets
      * Pass `[]` to disable ambiguity folding (case-insensitivity is
      * controlled separately). Pass a custom map to override the defaults.
      *
-     * @param array<string,string>|null $foldMap         Null = library defaults; [] = no folding; otherwise a custom alias->target map.
+     * @param array<int|string,string>|null $foldMap     Null = library defaults; [] = no folding; otherwise a custom alias->target map.
      * @param bool                      $caseInsensitive Default true. Set false for strict casing.
      */
     public static function supercellHashtag(?array $foldMap = null, bool $caseInsensitive = true): Alphabet

@@ -55,7 +55,10 @@ final class BcmathBackend implements MathBackend
         return 'bcmath';
     }
 
-    /** @return list<int> least-significant limb first */
+    /**
+     * @param  numeric-string $n
+     * @return list<int> least-significant limb first
+     */
     private function toLimbs(string $n): array
     {
         $limbs = [];
@@ -76,6 +79,11 @@ final class BcmathBackend implements MathBackend
         return $n;
     }
 
+    /**
+     * Validate and narrow the input to a numeric-string for BCMath.
+     *
+     * @return numeric-string
+     */
     private function parse(string $n): string
     {
         if ($n === '' || !ctype_digit($n)) {
