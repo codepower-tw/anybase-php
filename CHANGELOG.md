@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `.gitattributes` with line-ending normalization (LF) and Composer
+  `export-ignore` rules so `composer require` only fetches the runtime
+  payload (`composer.json`, `LICENSE`, `README.md`, `src/`) and skips
+  tests, CI configs, lint caches, and `composer.lock`.
+
 ## [0.1.0] - 2026-05-08
 
 ### Added
