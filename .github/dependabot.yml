@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # PHP dependencies (all are require-dev; the only runtime require is php itself).
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      composer:
+        patterns:
+          - "*"
+
+  # GitHub Actions used by the CI and release workflows.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
